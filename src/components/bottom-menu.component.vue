@@ -5,13 +5,14 @@
     grow
     class="d-flex align-center"
     background-color="primary"
+    dark
   >
     <v-btn 
       color="primary" 
       style="height: 100%; color: white;"
       v-for="(item, index) in buttons"
       :key="index"
-      @click="handleRoute(item)"
+      :to="item.path"
     >
       <span>{{ item.label }}</span>
       <v-icon>{{ item.icon }}</v-icon>
@@ -24,16 +25,13 @@ export default {
   data: () => ({
     value: 0,
     buttons: [
-      { label: 'Home', icon: 'home', path: 'Home' },
-      { label: 'Pharmacy', icon: 'medical_services', path: 'Pharmacy' },
-      { label: 'Lab Tests', icon: 'science', path: 'Lab Tests' },
-      { label: 'Account', icon: 'account_circle', path: 'Account' },
+      { label: 'Home', icon: 'home', path: '/' },
+      { label: 'Pharmacy', icon: 'medical_services', path: '/search-medicine' },
+      { label: 'Lab Tests', icon: 'science', path: '/lab-test' },
+      { label: 'Account', icon: 'account_circle', path: '/account' },
     ]
   }),
   methods: {
-    handleRoute(item) {
-      this.$router.push({ name: item.path })
-    }
   },
   mounted() {
   }

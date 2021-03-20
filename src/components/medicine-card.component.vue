@@ -1,9 +1,14 @@
 <template>
-  <v-card elevation="0" class="pa-2 mb-2 d-flex align-center" ripple @click="goToDetail()">
+  <v-card 
+    elevation="0" 
+    :class="{'pa-2 mb-2 d-flex align-center' : true }" 
+    ripple 
+    @click="goToDetail()"
+  >
     <div>
       IMAGE
     </div>
-    <div class="d-flex flex-column ml-10" style="width: 100%;">
+    <div :class="{'d-flex flex-column ml-10': true }" style="width: 100%;">
       <h4>Medicine Name</h4>
       <p>price</p>
       <div class="d-flex align-center justify-space-between">
@@ -18,9 +23,11 @@
 
 <script>
 export default {
+  props: {
+  },
   methods: {
     goToDetail() {
-      this.$router.push({ name: 'Product Details' });
+      this.$router.push({ name: 'Product Details' })
     }
   }
 }

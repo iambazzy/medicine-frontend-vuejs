@@ -4,6 +4,11 @@ module.exports = {
     'vuetify'
   ],
   configureWebpack: {
-    plugins: [ new BundleAnalyzerPlugin() ]
+    plugins: [ new BundleAnalyzerPlugin() ],
+    // mode: 'production',
+    // optimization: {
+    //   nodeEnv : 'production',
+    //   minimize: true
+    // }
   }
 }

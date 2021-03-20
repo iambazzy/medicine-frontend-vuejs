@@ -5,7 +5,7 @@
     ripple
   >
     <strong>Upload Prescription</strong>
-    <v-icon x-large color="black">description</v-icon>
+    <v-icon x-large color="primary">description</v-icon>
   </v-card>
 </template>
 

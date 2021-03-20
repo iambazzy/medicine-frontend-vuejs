@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <app-header/>
-    <v-container>
+    <app-header class="mb-12"/>
+    <search v-if="showSearchBar"/>
+    <v-container class="mb-14">
       <router-view/>        
     </v-container>
     <bottom-menu/>
@@ -11,15 +12,21 @@
 <script>
 export default {
   name: 'App',
-
   components: {
     appHeader: () => import('./components/header.component'),
-    bottomMenu: () => import('./components/bottom-menu.component')
+    bottomMenu: () => import('./components/bottom-menu.component'),
+    search: () => import('./components/search-bar.component')
   },
-
+  computed: {
+    showSearchBar() {
+      const routes = ['Home', 'Search Medicine', 'Lab Tests'];
+      const visible = routes.includes(this.$route.name) ? true : false;
+      return visible;
+    }
+  },
   data: () => ({
   
-  }),
+  })
 };
 </script>
 
