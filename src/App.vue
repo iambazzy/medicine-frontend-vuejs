@@ -48,15 +48,14 @@ export default {
   methods: {
     getPwaInstance() {
       window.addEventListener('beforeinstallprompt',(e) => {
-        console.log('e',e);
-        this.showPWA = true;
         e.preventDefault();
         this.pwaInstance = e;
         this.showCustomPrompt();
       });
     },
     showCustomPrompt() {
-      console.log('here', this.pwaInstance);
+      console.log('here', this.pwaInstance, this.showPWA);
+      this.showPWA = true;
     },
     startPWAPopup() {
       setTimeout(() => {
@@ -65,7 +64,7 @@ export default {
     }
   },
   mounted() {
-    // this.startPWAPopup();
+    this.startPWAPopup();
   }
 };
 </script>
