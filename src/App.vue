@@ -57,14 +57,9 @@ export default {
       console.log('here', this.pwaInstance, this.showPWA);
       this.showPWA = true;
     },
-    startPWAPopup() {
-      setTimeout(() => {
-        this.getPwaInstance();
-      }, 5000)
-    }
   },
   mounted() {
-    this.startPWAPopup();
+    this.getPwaInstance();
   }
 };
 </script>
