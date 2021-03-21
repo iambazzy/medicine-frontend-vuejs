@@ -29,7 +29,7 @@ export default {
     }
   },
   data: () => ({
-    dialog: false
+    dialog: true
   }),
   methods: {
     toggleDialog() {

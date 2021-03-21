@@ -6,6 +6,17 @@
       <router-view/>        
     </v-container>
     <bottom-menu/>
+    <!-- PWA POPUP -->
+    <info-modal :color="'primary'" v-if="showPWA">
+      <template v-slot:heading>
+        <strong>Download Our Mobile App</strong>
+      </template>
+      <template v-slot:body>
+        <h3>If you dont like going to websites.</h3>
+        <h4>You can simply install our app. Just hit the install button below</h4>
+        <v-btn block color="primary" class="mt-4">Install</v-btn>
+      </template>
+    </info-modal>
   </v-app>
 </template>
 
@@ -13,16 +24,19 @@
 import appHeader from './components/header.component';
 import bottomMenu from './components/bottom-menu.component';
 import search from './components/search-bar.component';
+import infoModal from './components/info-modal.component';
 
 export default {
   name: 'App',
   components: {
     appHeader,
     bottomMenu,
-    search
+    search,
+    infoModal
   },
   data: () => ({
-    pwaInstance: null
+    pwaInstance: null,
+    showPWA: false
   }),
   computed: {
     showSearchBar() {
@@ -35,6 +49,7 @@ export default {
     getPwaInstance() {
       window.addEventListener('beforeinstallprompt',(e) => {
         console.log('e',e);
+        this.showPWA = true;
         e.preventDefault();
         this.pwaInstance = e;
         this.showCustomPrompt();
@@ -42,10 +57,15 @@ export default {
     },
     showCustomPrompt() {
       console.log('here', this.pwaInstance);
+    },
+    startPWAPopup() {
+      setTimeout(() => {
+        this.getPwaInstance();
+      }, 5000)
     }
   },
   mounted() {
-    this.getPwaInstance();
+    // this.startPWAPopup();
   }
 };
 </script>
