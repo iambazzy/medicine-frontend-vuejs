@@ -30,7 +30,16 @@ const routes = [
     name: 'Lab Tests',
     component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "lab-test" */ '../views/LabTests.vue')
   },
-  
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "lab-test" */ '../views/Profile.vue')
+  },
+  {
+    path: '/address',
+    name: 'Address',
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "lab-test" */ '../views/Address.vue')
+  }
 ]
 
 const router = new VueRouter({

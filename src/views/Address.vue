@@ -1,0 +1,41 @@
+<template>
+  <v-card>
+    <v-tabs v-model="tab" grow>
+      <v-tabs-slider></v-tabs-slider>
+      <v-tab href="#tab-1"> Saved Addresses </v-tab>
+      <v-tab href="#tab-2"> Add Address </v-tab>
+    </v-tabs>
+
+    <v-tabs-items v-model="tab">
+      <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
+        <v-card flat class="pa-4">
+          <div v-if="tab === 'tab-1'">
+            <saved-address/>
+          </div>
+          <div v-if="tab === 'tab-2'">
+            <add-address/>
+          </div>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-card>
+</template>
+
+<script>
+import savedAddress from '../components/saved-address.component';
+import addAddress from '../components/add-address.component';
+
+export default {
+  components: {
+    savedAddress,
+    addAddress
+  },
+  data: () => ({
+    tab: null,
+  })
+}
+</script>
+
+<style>
+
+</style>
