@@ -21,6 +21,9 @@ export default {
     bottomMenu,
     search
   },
+  data: () => ({
+    pwaInstance: null
+  }),
   computed: {
     showSearchBar() {
       const routes = ['Home', 'Search Medicine', 'Lab Tests'];
@@ -28,9 +31,22 @@ export default {
       return visible;
     }
   },
-  data: () => ({
-  
-  })
+  methods: {
+    getPwaInstance() {
+      window.addEventListener('beforeinstallprompt',(e) => {
+        console.log('e',e);
+        e.preventDefault();
+        this.pwaInstance = e;
+        this.showCustomPrompt();
+      });
+    },
+    showCustomPrompt() {
+      console.log('here', this.pwaInstance);
+    }
+  },
+  mounted() {
+    this.getPwaInstance();
+  }
 };
 </script>
 

@@ -9,18 +9,7 @@ Vue.use(Vuetify);
 
 Vue.config.productionTip = false
 
-export default new Vuetify({
-  theme: {
-    themes: {
-      light: {
-        pri: '#4069e6',
-        secondary: '#b0bec5',
-        accent: '#8c9eff',
-        error: '#b71c1c',
-      },
-    },
-  },
- });
+export default new Vuetify({});
 
 new Vue({
   router,

@@ -1,0 +1,12 @@
+{
+  "name":"Better Life kashmir",
+  "short_name":"Better Life KMR",
+  "theme_color":"#4DBA87",
+  "icons":[
+    {"src":"./img/icons/pharmacyone.png","sizes":"128x128","type":"image/png"},
+    {"src":"./img/icons/pharmacyfive.png","sizes":"512x512","type":"image/png"}        
+  ],
+  "start_url":".",
+  "display":"standalone",
+  "background_color":"#000000"
+}

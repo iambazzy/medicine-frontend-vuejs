@@ -10,7 +10,7 @@
       <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
         <v-card flat class="pa-4">
           <div v-if="tab === 'tab-1'">
-            <saved-address/>
+            <saved-address @switchTab="switchTab"/>
           </div>
           <div v-if="tab === 'tab-2'">
             <add-address/>
@@ -32,7 +32,12 @@ export default {
   },
   data: () => ({
     tab: null,
-  })
+  }),
+  methods: {
+    switchTab(val) {
+      this.tab = val;
+    }
+  }
 }
 </script>
 
