@@ -6,6 +6,7 @@
       <router-view/>        
     </v-container>
     <bottom-menu/>
+    
     <!-- PWA POPUP -->
     <info-modal :color="'primary'" v-if="showPWA">
       <template v-slot:heading>
@@ -14,7 +15,7 @@
       <template v-slot:body>
         <h3>If you dont like going to websites.</h3>
         <h4>You can simply install our app. Just hit the install button below</h4>
-        <v-btn block color="primary" class="mt-4">Install</v-btn>
+        <v-btn block color="primary" class="mt-4" @click="installPWA">Install</v-btn>
       </template>
     </info-modal>
   </v-app>
@@ -54,9 +55,15 @@ export default {
       });
     },
     showCustomPrompt() {
-      console.log('here', this.pwaInstance, this.showPWA);
+      console.log('here3', this.pwaInstance, this.showPWA);
       this.showPWA = true;
     },
+    async installPWA() {
+      this.showPWA = false;
+      this.pwaInstance.prompt();
+      const { outcome } = await this.pwaInstance.userChoice;
+      console.log(outcome);
+    }
   },
   mounted() {
     this.getPwaInstance();
