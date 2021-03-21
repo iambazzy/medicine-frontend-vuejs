@@ -10,15 +10,20 @@
 </template>
 
 <script>
+import primaryCarousel from '../components/primary-carousel.component.vue';
+import categories from '../components/categories.component';
+import uploadPrescription from '../components/upload-prescription.component';
+import productSlider from '../components/product-slider.component';
+import advertise from '../components/advertise.component';
 
 export default {
   name: 'Home',
   components: {
-    primaryCarousel:() => import('../components/primary-carousel.component.vue'),
-    categories: () => import('../components/categories.component'),
-    uploadPrescription: () => import('../components/upload-prescription.component'),
-    productSlider: () => import('../components/product-slider.component'),
-    advertise: () => import('../components/advertise.component')
+    primaryCarousel,
+    categories,
+    uploadPrescription,
+    productSlider,
+    advertise
   }
 }
 </script>

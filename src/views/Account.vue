@@ -22,10 +22,13 @@
 </template>
 
 <script>
+import signin from '../components/signin.component';
+import signup from '../components/signup.component';
+
 export default {
   components: {
-    signin: () => import('../components/signin.component'),
-    signup: () => import('../components/signup.component')
+    signin, 
+    signup 
   },
   data: () => ({
     tab: null,

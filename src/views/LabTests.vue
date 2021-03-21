@@ -6,7 +6,7 @@
         <h3>Book Lab Tests</h3>
       </div>
       <div>
-        <span style="cursor: pointer" @click="$refs.dialog.toggleDialog()">
+        <span style="cursor: pointer" @click="showInfoModal = !showInfoModal">
           <v-icon  color="primary">info</v-icon>
         </span>
       </div>
@@ -14,7 +14,7 @@
 
     <!-- ADDED -->
     <div class="d-flex justify-end mb-4">
-      <v-btn color="primary" small @click="$refs.sheet.toggleSheet()">
+      <v-btn color="primary" small @click="showBottomSheet = !showBottomSheet">
         Added <v-chip x-small color="white" class="ml-3">0</v-chip>
       </v-btn>
     </div>
@@ -29,7 +29,7 @@
     </test-card>
 
     <!-- HOW IT WORKS -->
-    <info-modal :color="'primary'" ref="dialog">
+    <info-modal :color="'primary'" v-if="showInfoModal">
       <template v-slot:heading>
         <strong>How it Works</strong>
       </template>
@@ -39,16 +39,19 @@
     </info-modal>
 
     <!-- ADDED BOTTOM SHEET -->
-    <sheet ref="sheet"/>
+    <sheet v-if="showBottomSheet">
+      
+    </sheet>
   </div>
 </template>
 
 <script>
+import testCard from '../components/test-card.component';
 export default {
   components: {
-    testCard: () => import('../components/test-card.component'),
     infoModal: () => import('../components/info-modal.component.vue'),
-    sheet: () => import('../components/bottom-dialog.component')
+    sheet: () => import('../components/bottom-dialog.component'),
+    testCard,
   },
   data: () => ({
     tests: 10

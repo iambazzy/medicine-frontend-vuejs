@@ -8,9 +8,11 @@
 </template>
 
 <script>
+import medicineCard from '../components/medicine-card.component';
+
 export default {
   components: {
-    medicineCard: () => import('../components/medicine-card.component'),
+    medicineCard
   },
   data: () => ({
     medicines: 15

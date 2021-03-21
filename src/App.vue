@@ -10,12 +10,16 @@
 </template>
 
 <script>
+import appHeader from './components/header.component';
+import bottomMenu from './components/bottom-menu.component';
+import search from './components/search-bar.component';
+
 export default {
   name: 'App',
   components: {
-    appHeader: () => import('./components/header.component'),
-    bottomMenu: () => import('./components/bottom-menu.component'),
-    search: () => import('./components/search-bar.component')
+    appHeader,
+    bottomMenu,
+    search
   },
   computed: {
     showSearchBar() {
