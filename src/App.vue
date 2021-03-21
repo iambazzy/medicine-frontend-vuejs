@@ -6,7 +6,7 @@
       <router-view/>        
     </v-container>
     <bottom-menu/>
-    
+
     <!-- PWA POPUP -->
     <info-modal :color="'primary'" v-if="showPWA">
       <template v-slot:heading>
@@ -62,7 +62,11 @@ export default {
       this.showPWA = false;
       this.pwaInstance.prompt();
       const { outcome } = await this.pwaInstance.userChoice;
-      console.log(outcome);
+      if (outcome !== '' || outcome === 'accepted') {
+        window.close();
+      } else {
+        window.close();
+      }
     }
   },
   mounted() {
