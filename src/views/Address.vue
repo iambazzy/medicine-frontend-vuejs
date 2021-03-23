@@ -10,7 +10,11 @@
       <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
         <v-card flat class="pa-4">
           <div v-if="tab === 'tab-1'">
-            <saved-address @switchTab="switchTab"/>
+            <saved-address
+              :title="'Saved Addresses'"
+              :subTitle="'You can save upto 5 addresses'"
+              @switchTab="switchTab"
+            />
           </div>
           <div v-if="tab === 'tab-2'">
             <add-address/>
@@ -36,7 +40,16 @@ export default {
   methods: {
     switchTab(val) {
       this.tab = val;
+    },
+    checkForQueryParams() {
+      if (this.$route.query) {
+        const { tab } = this.$route.query;
+        this.switchTab(tab);
+      }
     }
+  },
+  created() {
+    this.checkForQueryParams();
   }
 }
 </script>

@@ -6,7 +6,7 @@
         <h3>Book Lab Tests</h3>
       </div>
       <div>
-        <span style="cursor: pointer" @click="showInfoModal = !showInfoModal">
+        <span style="cursor: pointer" @click="$refs.modal.toggleDialog()">
           <v-icon  color="primary">info</v-icon>
         </span>
       </div>
@@ -14,7 +14,7 @@
 
     <!-- ADDED -->
     <div class="d-flex justify-end mb-4">
-      <v-btn color="primary" small @click="showBottomSheet = !showBottomSheet">
+      <v-btn color="primary" small @click="$refs.sheet.toggleSheet()">
         Added <v-chip x-small color="white" class="ml-3">0</v-chip>
       </v-btn>
     </div>
@@ -29,7 +29,7 @@
     </test-card>
 
     <!-- HOW IT WORKS -->
-    <info-modal :color="'primary'" v-if="showInfoModal">
+    <info-modal :color="'primary'" ref="modal">
       <template v-slot:heading>
         <strong>How it Works</strong>
       </template>
@@ -39,8 +39,10 @@
     </info-modal>
 
     <!-- ADDED BOTTOM SHEET -->
-    <sheet v-if="showBottomSheet">
-      
+    <sheet ref="sheet">
+      <template v-slot:body>
+        hello
+      </template>
     </sheet>
   </div>
 </template>
@@ -54,7 +56,8 @@ export default {
     testCard,
   },
   data: () => ({
-    tests: 10
+    tests: 10,
+    showInfoModal: false,
   })
 }
 </script>

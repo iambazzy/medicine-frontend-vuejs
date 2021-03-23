@@ -33,12 +33,17 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "lab-test" */ '../views/Profile.vue')
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "profile" */ '../views/Profile.vue')
   },
   {
     path: '/address',
     name: 'Address',
-    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "lab-test" */ '../views/Address.vue')
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "address" */ '../views/Address.vue')
+  }, 
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "cart" */ '../views/Cart.vue')
   }
 ]
 

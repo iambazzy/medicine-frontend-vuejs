@@ -19,7 +19,7 @@
 
       <v-toolbar-title class="white--text">
         <div>
-          <span>
+          <span @click="$router.push({ path: '/cart' })"> 
             <v-icon color="white">shopping_cart</v-icon>
           </span>
       </div>

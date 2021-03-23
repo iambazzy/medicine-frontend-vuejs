@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column">
-    <strong>Saved Addresses.</strong>
-    <small>You can save upto 5 addresses.</small>
+    <strong>{{ title }}</strong>
+    <small>{{ subTitle }}</small>
     <!-- CHECK IF ADDRESSES -->
     <div v-if="false">
       <v-card elevation="2" v-for="(item, index) in 5" :key="index" class="pa-2 mb-2 mt-2" >
@@ -36,7 +36,16 @@
 
 <script>
 export default {
-
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    subTitle: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
 
