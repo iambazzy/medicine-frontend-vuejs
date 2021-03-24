@@ -8,13 +8,13 @@
     <bottom-menu/>
 
     <!-- PWA POPUP -->
-    <info-modal :color="'primary'" v-if="showPWA">
+    <info-modal :color="'primary'" ref="pwa">
       <template v-slot:heading>
         <strong>Download Our Mobile App</strong>
       </template>
       <template v-slot:body>
-        <h3>If you dont like going to websites.</h3>
-        <h4>You can simply install our app. Just hit the install button below</h4>
+        <h3>If you dont like websites and prefer using an app.</h3>
+        <small >You can simply install the lite version of our app. Just hit the install button below</small>
         <v-btn block color="primary" class="mt-4" @click="installPWA">Install</v-btn>
       </template>
     </info-modal>
@@ -37,7 +37,6 @@ export default {
   },
   data: () => ({
     pwaInstance: null,
-    showPWA: false
   }),
   computed: {
     showSearchBar() {
@@ -48,6 +47,7 @@ export default {
   },
   methods: {
     getPwaInstance() {
+      this.$refs.pwa.toggleDialog();
       window.addEventListener('beforeinstallprompt',(e) => {
         e.preventDefault();
         this.pwaInstance = e;
@@ -55,11 +55,10 @@ export default {
       });
     },
     showCustomPrompt() {
-      console.log('here3', this.pwaInstance, this.showPWA);
-      this.showPWA = true;
+      this.$refs.pwa.toggleDialog();
     },
     async installPWA() {
-      this.showPWA = false;
+      this.$refs.pwa.toggleDialog();
       this.pwaInstance.prompt();
       const { outcome } = await this.pwaInstance.userChoice;
       if (outcome !== '' || outcome === 'accepted') {

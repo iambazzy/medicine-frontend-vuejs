@@ -1,11 +1,11 @@
 <template>
   <v-dialog max-width="600" v-model="dialog">
     <template v-slot:default="dialog">
-      <v-card>
+      <v-card class="pa-0">
         <v-toolbar :color="color" dark>
           <slot name="heading"></slot>
         </v-toolbar>
-        <v-card-text>
+        <v-card-text class="pa-2">
           <div class="pt-6">
             <slot name="body"></slot>
           </div>
