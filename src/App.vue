@@ -58,7 +58,6 @@ export default {
       this.$refs.pwa.toggleDialog();
     },
     async installPWA() {
-      this.$refs.pwa.toggleDialog();
       this.pwaInstance.prompt();
       const { outcome } = await this.pwaInstance.userChoice;
       if (outcome !== '' || outcome === 'accepted') {
