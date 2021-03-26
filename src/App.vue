@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <loader/>
     <app-header class="mb-12"/>
     <search v-if="showSearchBar"/>
     <v-container class="mb-14">
@@ -26,6 +27,7 @@ import appHeader from './components/header.component';
 import bottomMenu from './components/bottom-menu.component';
 import search from './components/search-bar.component';
 import infoModal from './components/info-modal.component';
+import loader from './components/loader.component';
 
 export default {
   name: 'App',
@@ -33,7 +35,8 @@ export default {
     appHeader,
     bottomMenu,
     search,
-    infoModal
+    infoModal,
+    loader,
   },
   data: () => ({
     pwaInstance: null,

@@ -33,17 +33,26 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "profile" */ '../views/Profile.vue')
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "profile" */ '../views/Profile.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/address',
     name: 'Address',
-    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "address" */ '../views/Address.vue')
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "address" */ '../views/Address.vue'),
+    meta: {
+      requiresAuth: true
+    }
   }, 
   {
     path: '/cart',
     name: 'Cart',
-    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "cart" */ '../views/Cart.vue')
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "cart" */ '../views/Cart.vue'),
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
@@ -51,5 +60,21 @@ const router = new VueRouter({
   mode: 'history',
   routes
 })
+
+router.beforeEach((to, from, next) => { 
+  if (isAuthenticated(to)) {
+    const token = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("token")).token
+      : null;
+    if (token === null) {
+      next("/account");
+    }
+  }
+  next();
+});
+
+function isAuthenticated(to) {
+  return to.matched.some((record) => record.meta.requiresAuth);
+}
 
 export default router

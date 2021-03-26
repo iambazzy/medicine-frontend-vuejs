@@ -2,7 +2,8 @@
   <div>
     <medicine-card 
       v-for="(medicine, index) in medicines" 
-      :key="index" 
+      :key="index"
+      :product="medicine"
     />
   </div>
 </template>
@@ -14,13 +15,20 @@ export default {
   components: {
     medicineCard
   },
-  data: () => ({
-    medicines: 15
-  })
-
+  computed: {
+    medicines() {
+      return this.$store.getters['pharmacy/getMedicines']
+    }
+  },
+  methods: {
+    getMedicines() {
+      if (this.medicines.length === 0) {
+        this.$store.dispatch('pharmacy/getMedicines');
+      }
+    }
+  },
+  mounted() {
+    this.getMedicines();
+  }
 }
 </script>
-
-<style>
-
-</style>

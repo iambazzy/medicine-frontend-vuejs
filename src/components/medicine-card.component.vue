@@ -9,8 +9,8 @@
       IMAGE
     </div>
     <div :class="{'d-flex flex-column ml-10': true }" style="width: 100%;">
-      <h4>Medicine Name</h4>
-      <p>price</p>
+      <h4>{{ product.name }}</h4>
+      <p>{{ product.mrp }}</p>
       <div class="d-flex align-center justify-space-between">
         <v-chip x-small color="primary"> company name </v-chip>
         <v-btn icon color="black">
@@ -23,10 +23,10 @@
 
 <script>
 export default {
-  props: {
-  },
+  props: ['product'],
   methods: {
     goToDetail() {
+      console.log(this.product._id)
       this.$router.push({ name: 'Product Details' })
     }
   }

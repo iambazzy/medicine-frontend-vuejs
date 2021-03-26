@@ -24,6 +24,6 @@ export default {
     uploadPrescription,
     productSlider,
     advertise
-  }
+  },
 }
 </script>
