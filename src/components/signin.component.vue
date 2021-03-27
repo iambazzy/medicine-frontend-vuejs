@@ -40,7 +40,9 @@ export default {
         "email": this.email,
         "password": this.password
       }
-      this.$emit('login', formData);
+      if(this.$refs.form.validate()) {
+        this.$emit('login', formData);
+      }
     }
   }
 }
