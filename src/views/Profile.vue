@@ -41,6 +41,7 @@
         
       </v-card>
     </div>
+    <v-btn class="mt-6" color="red" block outlined @click="logout">Sign Out</v-btn>
   </div>
 </template>
 
@@ -71,6 +72,14 @@ export default {
   methods: {
     navigateTo(item) {
       this.$router.push({ path: item.path});
+    },
+    logout() {
+      this.$store.dispatch('account/logout').then((path) => {
+        if (path) {
+          this.$router.push({ path });
+          this.$store.commit('showSnackbar', { color: 'error', message: 'You have been logged out!' });
+        }
+      });
     }
   }
 }

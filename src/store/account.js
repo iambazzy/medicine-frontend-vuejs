@@ -8,7 +8,7 @@ export default {
   mutations: {
     setLoggedIn(state, payload) {
       state.loggedIn = payload.value;
-    }
+    },
   },
   actions: {
     async login(context, payload) {
@@ -39,6 +39,11 @@ export default {
       } finally {
         await context.commit('stopLoading', null, { root: true });
       }
+    },
+    async logout(context) {
+      context.commit('setLoggedIn', { value: false });
+      await localStorage.removeItem('user');
+      return '/account';
     }
   },
   getters: {

@@ -14,7 +14,7 @@
       :key="index"
       :to="item.path"
     >
-      <span v-if="item.label === 'Account'">{{ loggedIn ? 'My Profile' : item.label }}</span>
+      <span v-if="item.label === 'Account'">{{ loggedIn ? 'Profile' : item.label }}</span>
       <span v-else>{{ item.label }}</span>
       <v-icon>{{ item.icon }}</v-icon>
     </v-btn>
