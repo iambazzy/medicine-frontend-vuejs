@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <snackbar/>
     <loader/>
     <app-header class="mb-12"/>
     <search v-if="showSearchBar"/>
@@ -28,6 +29,7 @@ import bottomMenu from './components/bottom-menu.component';
 import search from './components/search-bar.component';
 import infoModal from './components/info-modal.component';
 import loader from './components/loader.component';
+import snackbar from './components/snackbar.component';
 
 export default {
   name: 'App',
@@ -37,6 +39,7 @@ export default {
     search,
     infoModal,
     loader,
+    snackbar,
   },
   data: () => ({
     pwaInstance: null,
@@ -68,10 +71,17 @@ export default {
       } else {
         window.close();
       }
+    },
+    async checkifLoggedIn() {
+      if (localStorage.getItem('user')) {
+        const token = JSON.parse(localStorage.getItem("user")).token;
+        this.$store.dispatch('account/verifyToken', { token });
+      }
     }
   },
   mounted() {
     this.getPwaInstance();
+    this.checkifLoggedIn();
   }
 };
 </script>

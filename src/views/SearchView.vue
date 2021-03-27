@@ -10,6 +10,7 @@
 
 <script>
 import medicineCard from '../components/medicine-card.component';
+import pharmacyModule from '../store/pharmacy';
 
 export default {
   components: {
@@ -25,10 +26,19 @@ export default {
       if (this.medicines.length === 0) {
         this.$store.dispatch('pharmacy/getMedicines');
       }
+    },
+    initializeModule() {
+      this.$store.registerModule('pharmacy', pharmacyModule);
     }
   },
-  mounted() {
+  async created() {
+    await this.initializeModule();
+  },
+  mounted() {  
     this.getMedicines();
+  },
+  beforeDestroy () {
+    this.$store.unregisterModule('pharmacy');
   }
 }
 </script>

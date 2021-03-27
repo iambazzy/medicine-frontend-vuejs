@@ -1,6 +1,6 @@
 import ApiService from '../plugins/axios';
 
-const pharmacy = {
+export default {
   namespaced: true,
   state: {
     medicines: [],
@@ -23,4 +23,3 @@ const pharmacy = {
   }
 }
 
-export default pharmacy;

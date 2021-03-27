@@ -18,7 +18,14 @@ const routes = [
   {
     path: '/product-details',
     name: 'Product Details',
-    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "p-details" */ '../views/ProductDetail.vue')
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "p-details" */ '../views/ProductDetail.vue'),
+    beforeEnter(to, from, next) {
+      if (Object.keys(to.query).includes('id')) {
+        next();
+      } else {
+        next('/');
+      }
+    }
   },
   {
     path: '/account',
@@ -64,7 +71,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => { 
   if (isAuthenticated(to)) {
     const token = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("token")).token
+      ? JSON.parse(localStorage.getItem("user")).token
       : null;
     if (token === null) {
       next("/account");

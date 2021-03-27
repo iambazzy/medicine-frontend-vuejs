@@ -10,10 +10,10 @@
       <v-tab-item v-for="i in 3" :key="i" :value="'tab-' + i">
         <v-card flat class="pa-4">
           <div v-if="tab === 'tab-1'">
-            <signin/>
+            <signin @login="login"/>
           </div>
           <div v-if="tab === 'tab-2'">
-            <signup/>
+            <signup @signup="signup"/>
           </div>
         </v-card>
       </v-tab-item>
@@ -33,7 +33,18 @@ export default {
   data: () => ({
     tab: null,
     headingMssg: 'Login to your account'
-  })
+  }),
+  methods: {
+    login(data) {
+      this.$store.dispatch('account/login', data);
+    },
+    signup(data) {
+      console.log(data);
+    }
+  },
+  mounted() {
+
+  },
 }
 </script>
 

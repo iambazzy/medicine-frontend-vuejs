@@ -40,7 +40,7 @@ export default {
         "email": this.email,
         "password": this.password
       }
-      console.log(formData);
+      this.$emit('login', formData);
     }
   }
 }

@@ -1,12 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import pharmacy from './pharmacy'
+import accountModule from './account';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     loading: false,
+    snackbar: false,
+    timeout: 2000,
+    message: '',
+    color: 'primary'
   },
   mutations: {
     startLoading(state) {
@@ -14,6 +18,14 @@ export default new Vuex.Store({
     },
     stopLoading(state) {
       state.loading = false;
+    },
+    showSnackbar(state, payload) {
+      state.snackbar = true;
+      state.message = payload.message;
+      state.color = payload.color;
+    },
+    hideSnackbar(state) {
+      state.snackbar = false;
     }
   },
   actions: {
@@ -21,8 +33,12 @@ export default new Vuex.Store({
   },
   getters: {
     isLoading: state => state.loading,
+    snackbar: state => state.snackbar,
+    timeout: state => state.timeout,
+    message: state => state.message,
+    color: state => state.color,
   },
   modules: {
-    pharmacy
+    account: accountModule
   }
 });

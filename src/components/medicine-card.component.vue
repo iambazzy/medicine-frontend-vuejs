@@ -26,8 +26,7 @@ export default {
   props: ['product'],
   methods: {
     goToDetail() {
-      console.log(this.product._id)
-      this.$router.push({ name: 'Product Details' })
+      this.$router.push({ name: 'Product Details', query: { id: this.product._id } });
     }
   }
 }
