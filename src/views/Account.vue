@@ -36,7 +36,12 @@ export default {
   }),
   methods: {
     login(data) {
-      this.$store.dispatch('account/login', data);
+      this.$store.dispatch('account/login', data).then((data) => {
+        if (data) {
+          this.$router.push({ path: '/profile' });
+          this.$store.commit('showSnackbar', { color: 'success', message: data.message });
+        }
+      });
     },
     signup(data) {
       console.log(data);

@@ -30,7 +30,17 @@ const routes = [
   {
     path: '/account',
     name: 'Account',
-    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "account" */ '../views/Account.vue')
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "account" */ '../views/Account.vue'),
+    beforeEnter(to, from, next) {
+      if (localStorage.getItem('user')) {
+        const token = JSON.parse(localStorage.getItem('user')).token;
+        if (token !== null || token !== '') {
+          next('/profile');
+        }
+      } else {
+        next();
+      }
+    }
   },
   {
     path: '/lab-test',

@@ -17,7 +17,7 @@ export default {
         const { data } = await ApiService().post('/user/signin', { email: payload.email, password: payload.password });
         context.commit('setLoggedIn', { value: true })
         await localStorage.setItem('user', JSON.stringify(data));
-        context.commit('showSnackbar', { color: 'success', message: data.message }, { root: true });
+        return data;
       } catch (e) {
         const { data } = e.response;
         context.commit('showSnackbar', { color: 'error', message: data.message }, { root: true });
@@ -42,6 +42,6 @@ export default {
     }
   },
   getters: {
-
+    loggedIn: state => state.loggedIn
   }
 }

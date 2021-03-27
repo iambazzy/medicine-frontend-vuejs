@@ -14,7 +14,8 @@
       :key="index"
       :to="item.path"
     >
-      <span>{{ item.label }}</span>
+      <span v-if="item.label === 'Account'">{{ loggedIn ? 'My Profile' : item.label }}</span>
+      <span v-else>{{ item.label }}</span>
       <v-icon>{{ item.icon }}</v-icon>
     </v-btn>
   </v-bottom-navigation>
@@ -31,6 +32,11 @@ export default {
       { label: 'Account', icon: 'account_circle', path: '/account' },
     ]
   }),
+  computed: {
+    loggedIn() {
+      return this.$store.getters['account/loggedIn'];
+    }
+  },
   methods: {
   },
   mounted() {
