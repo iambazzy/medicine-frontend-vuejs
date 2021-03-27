@@ -1,36 +1,29 @@
 <template>
   <v-sheet color="primary" 
-    :class="{'pa-2 d-flex align-center' : true, 'search-bar pl-0': showButtons }"
+    :class="{'pa-2 d-flex align-center' : true }"
   >
-    <span @click="$router.go(-1)" v-if="showButtons">
+    <span @click="$router.go(-1)" v-if="$route.name !== 'Home'">
       <v-icon large color="white">keyboard_arrow_left</v-icon>
     </span>
     <v-text-field
-      v-model="searchTerm"
+      @input="searchChanged"
       solo
       dense
       background-color="white"
       :label="label"
       hide-details
-      @click="searchClicked"  
+      @click="searchClicked"
     ></v-text-field>
-    <v-btn class="ml-2" color="white" style="height: 100%" v-if="showButtons">
-      <v-icon color="primary">search</v-icon>
-    </v-btn>
 </v-sheet>
 </template>
 
 <script>
 export default {
   data: () => ({
-    searchTerm: ''
+    searchTerm: '',
+    debounce: null
   }),
   computed: {
-    showButtons() {
-      if (this.$route.name === 'Search Medicine' || this.$route.name === 'Lab Tests') {
-        return true;
-      } return false;
-    },
     label() {
       if (this.$route.name === 'Search Medicine') {
         return 'Search Medicines'
@@ -39,11 +32,38 @@ export default {
       } else {
         return 'Search Medicines'
       }
-    }
+    },
   },
   methods: {
     searchClicked() {
-      this.$router.push({ name: 'Search Medicine' })
+      if (this.$route.path !== '/lab-test') {
+        this.$router.push({ name: 'Search Medicine' });
+      }
+    },
+    getSearchedItems(val) {
+      this.$store.dispatch('pharmacy/searchMedicines', val);
+    },
+    setDefaults() {
+      this.$store.commit('pharmacy/setMedicines', []);
+      this.$store.commit('pharmacy/setSeeMore', false);
+      this.$store.dispatch('pharmacy/getMedicines');
+    },
+    searchChanged(val) {
+      // SEARCH FOR MEDICINES
+      if (this.$route.path === '/search-medicine') {
+        this.$store.commit('pharmacy/setSearched', val);
+        clearTimeout(this.debounce);
+        this.debounce = setTimeout(() => {
+          if (val.length === 0 || val === '') {
+            return this.setDefaults();
+          }
+          this.getSearchedItems(val);  
+        }, 700)
+      } 
+      // SEACH FOR TESTS
+      else {
+        console.log('asd')
+      }
     }
   }
 }
