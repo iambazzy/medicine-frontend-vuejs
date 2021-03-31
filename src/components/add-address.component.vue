@@ -89,7 +89,13 @@ export default {
         "pincode": this.pincode,
         "landmark": this.landmark
       };
-      console.log(formData);
+      this.$store.dispatch('address/saveAddress', formData)
+      .then((resp) => {
+        if (resp) {
+          this.$store.dispatch('address/getAddress');
+        }
+        this.$emit('switchTab', 'tab-1');
+      });
     }
   }
 }

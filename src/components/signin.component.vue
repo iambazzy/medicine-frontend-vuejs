@@ -32,7 +32,6 @@ export default {
       v => !!v || 'Password is required.',
     ]
   }),
-
   methods: {
     validate () {
       this.$refs.form.validate();
@@ -43,11 +42,15 @@ export default {
       if(this.$refs.form.validate()) {
         this.$emit('login', formData);
       }
+    },
+    checkEmailInState() {
+      if (this.$store.state.account.email !== '') {
+        this.email = this.$store.state.account.email;
+      }
     }
+  },
+  mounted() {
+    this.checkEmailInState();
   }
 }
 </script>
-
-<style>
-
-</style>

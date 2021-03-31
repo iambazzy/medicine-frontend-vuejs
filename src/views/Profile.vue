@@ -11,7 +11,8 @@
         src="https://cdn3.iconfinder.com/data/icons/business-avatar-1/512/8_avatar-512.png"
         lazy-src="https://picsum.photos/id/11/10/6"
       ></v-img>
-      <strong>Users name</strong>
+      <strong class="username">{{ user.firstname }} {{ user.lastname }}</strong>
+      <small>{{ user.email }}</small>
       </div>
     </v-card>
 
@@ -48,6 +49,7 @@
 <script>
 export default {
   data: () => ({
+    user: localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')),
     cards: [
       { 
         label: 'Profile Details', 
@@ -88,5 +90,8 @@ export default {
 <style scoped lang="scss">
   .small-text {
     font-size : 12px;
+  }
+  .username {
+    text-transform: capitalize;
   }
 </style>

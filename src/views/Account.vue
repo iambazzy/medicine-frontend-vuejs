@@ -32,7 +32,7 @@ export default {
   },
   data: () => ({
     tab: null,
-    headingMssg: 'Login to your account'
+    headingMssg: 'Login to your account',
   }),
   methods: {
     login(data) {
@@ -44,7 +44,13 @@ export default {
       });
     },
     signup(data) {
-      console.log(data);
+      this.$store.dispatch('account/signup', data).then((data) => {
+        if (data) {
+          console.log(this.$store.state.account.email);
+          this.tab = 'tab-1';
+          this.$store.commit('showSnackbar', { color: 'success', message: data.message });
+        }
+      });
     }
   },
   mounted() {

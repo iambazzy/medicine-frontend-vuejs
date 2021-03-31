@@ -3,13 +3,14 @@
     <strong>{{ title }}</strong>
     <small>{{ subTitle }}</small>
     <!-- CHECK IF ADDRESSES -->
-    <div v-if="true">
-      <v-card elevation="2" v-for="(item, index) in 5" :key="index" class="pa-2 mb-2 mt-2" >
+    <div v-if="addresses && addresses.addresses !== []">
+      <v-card elevation="2" v-for="(item, index) in addresses.addresses" :key="index" class="pa-2 mb-2 mt-2" >
         <div class="d-flex flex-column">
-          <strong>Name</strong>
-          <small>Street - Phone</small>
-          <small>Landmark</small>
-          <small>State - City - Pincode</small>
+          <strong style="text-transform: capitalize;">{{ item.firstname }} {{ item.lastname }}</strong>
+          <small>{{ item.email }}</small>
+          <small>{{ item.street }} - {{ item.landmark }}</small>
+          <small>{{ item.phone }}</small>
+          <small>{{ item.pincode }}</small>
           <!-- Buttons -->
           <div class="d-flex justify-end mt-3">
             <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'">
@@ -44,6 +45,11 @@ export default {
     subTitle: {
       type: String,
       required: true
+    }
+  },
+  computed: {
+    addresses() {
+      return this.$store.getters['address/getAddresses']
     }
   },
   methods: {

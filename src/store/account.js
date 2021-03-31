@@ -3,7 +3,8 @@ import ApiService from '../plugins/axios';
 export default {
   namespaced: true,
   state: {
-    loggedIn: false
+    loggedIn: false,
+    email: '',
   },
   mutations: {
     setLoggedIn(state, payload) {
@@ -15,12 +16,25 @@ export default {
       try {
         context.commit('startLoading', null, { root: true });
         const { data } = await ApiService().post('/user/signin', { email: payload.email, password: payload.password });
-        context.commit('setLoggedIn', { value: true })
+        context.commit('setLoggedIn', { value: true });
         await localStorage.setItem('user', JSON.stringify(data));
         return data;
       } catch (e) {
         const { data } = e.response;
-        context.commit('showSnackbar', { color: 'error', message: data.message }, { root: true });
+        context.commit('showSnackbar', { color: 'error',message: data.message }, { root: true });
+      } finally {
+        await context.commit('stopLoading', null, { root: true });
+      }
+    },
+    async signup(context, payload) {
+      try {
+        context.commit('startLoading', null, { root: true });
+        const { data } = await ApiService().post('/user/signup', payload);
+        context.state.email = data.email;
+        return data;
+      } catch (e) {
+        const { data } = e.response;
+        context.commit('showSnackbar', { color: 'error',message: data.message }, { root: true });
       } finally {
         await context.commit('stopLoading', null, { root: true });
       }

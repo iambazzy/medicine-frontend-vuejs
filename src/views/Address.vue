@@ -17,7 +17,7 @@
             />
           </div>
           <div v-if="tab === 'tab-2'">
-            <add-address/>
+            <add-address @switchTab="switchTab"/>
           </div>
         </v-card>
       </v-tab-item>
@@ -28,6 +28,7 @@
 <script>
 import savedAddress from '../components/saved-address.component';
 import addAddress from '../components/add-address.component';
+import addressModule from '../store/address';
 
 export default {
   components: {
@@ -37,6 +38,11 @@ export default {
   data: () => ({
     tab: null,
   }),
+  computed: {
+    addresses() {
+      return this.$store.getters['address/getAddresses'].addresses;
+    }
+  },
   methods: {
     switchTab(val) {
       this.tab = val;
@@ -46,14 +52,22 @@ export default {
         const { tab } = this.$route.query;
         this.switchTab(tab);
       }
+    },
+    initializeModule() {
+      this.$store.registerModule('address', addressModule);
+    },
+  },
+  async created() {
+    await this.initializeModule();
+    this.checkForQueryParams();
+  },
+  mounted() {
+    if (this.addresses === undefined || this.addresses.length === 0) {
+      this.$store.dispatch('address/getAddress');
     }
   },
-  created() {
-    this.checkForQueryParams();
+  beforeDestroy () {
+    this.$store.unregisterModule('address');
   }
 }
 </script>
-
-<style>
-
-</style>

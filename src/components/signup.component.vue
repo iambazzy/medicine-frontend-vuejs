@@ -61,12 +61,10 @@ export default {
         "password": this.password,
         "phone": this.phone
       };
-      console.log(formData);
+      if(this.$refs.form.validate()) {
+        this.$emit('signup', formData);
+      }
     }
   }
 }
 </script>
-
-<style>
-
-</style>
