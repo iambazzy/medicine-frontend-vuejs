@@ -16,7 +16,7 @@
             <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'">
               <v-icon color="black">mode</v-icon>
             </v-btn>
-            <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'">
+            <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'" @click="deleteAddress(item)">
               <v-icon color="red">delete</v-icon>
             </v-btn>
             <v-btn small color="primary" dark @click="proceed(item)" v-if="$route.path == '/cart'">
@@ -57,6 +57,9 @@ export default {
       if (this.$route.path === '/cart') {
         this.$emit('proceed', item);
       }
+    },
+    deleteAddress(address) {
+      this.$store.dispatch('address/deleteAddress', address._id);
     }
   }
 } 

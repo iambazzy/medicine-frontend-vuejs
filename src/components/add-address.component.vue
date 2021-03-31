@@ -91,7 +91,7 @@ export default {
       };
       this.$store.dispatch('address/saveAddress', formData)
       .then((resp) => {
-        if (resp) {
+        if (resp.code === 200) {
           this.$store.dispatch('address/getAddress');
         }
         this.$emit('switchTab', 'tab-1');
