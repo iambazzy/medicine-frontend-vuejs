@@ -15,7 +15,6 @@ export default {
       try {
         context.commit('startLoading', null, { root: true });
         const { data : { data }} = await ApiService(true).get('user/get-address');
-        console.log(data);
         if (data.addresses && data.addresses.length === 0) {
           context.commit('setAddresses', null);  
           return;
@@ -31,7 +30,6 @@ export default {
       try {
         context.commit('startLoading', null, { root: true });
         const { data } = await ApiService(true).post('user/add-address', payload);
-        console.log(data);
         return data;
       } catch (e) {
         const { data } = e.response;
