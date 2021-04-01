@@ -10,7 +10,7 @@
             <slot name="body"></slot>
           </div>
         </v-card-text>
-        <v-card-actions class="justify-end">
+        <v-card-actions class="justify-end" v-if="showActionButtons">
           <v-btn text small color="error" @click="dialog.value = false">
             <strong>Close</strong>
           </v-btn>
@@ -26,6 +26,10 @@ export default {
     color: {
       type: String,
       required: true
+    },
+    showActionButtons: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({

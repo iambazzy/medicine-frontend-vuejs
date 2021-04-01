@@ -1,18 +1,28 @@
 <template>
   <div class="mt-3 d-flex flex-column">
-    <strong>Add Address.</strong>
-    <small>Enter Address For Faster Checkouts.</small>
+    <strong>{{ isEditing ? editMssg : addMssg }}</strong>
+    <small>{{ isEditing ? checkoutMssgEdit : checkoutMssgAdd }}</small>
     <v-form ref="form" v-model="valid" lazy-validation class="mt-8">
       <v-text-field v-model="firstname" :rules="firstNameRules" outlined dense label="Firstname" required class="mb-1"></v-text-field>
       <v-text-field v-model="lastname" :rules="lastNameRules" outlined dense label="Lastname" required class="mb-1"></v-text-field>
       <v-text-field v-model="email" :rules="emailRules" outlined dense label="E-mail" required class="mb-1"></v-text-field>
       <v-text-field v-model="phone" :rules="phoneRules" outlined dense label="Mobile Number" type="number" required class="mb-1"></v-text-field>
-      <v-text-field v-model="street" :rules="streetRules" outlined dense label="Street / House No." required class="mb-1"></v-text-field>
-      <v-text-field v-model="city" :rules="cityRules" outlined dense label="City" required class="mb-1"></v-text-field>
+      <!-- <v-text-field v-model="street" :rules="streetRules" outlined dense label="Street / House No." required class="mb-1"></v-text-field> -->
+      <v-textarea
+        outlined
+        dense
+        :rules="streetRules"
+        label="Street / House Address / H.no"
+        v-model="street"
+        class="mb-1"
+        required
+        rows="3"
+        no-resize
+      ></v-textarea>
       <v-text-field v-model="landmark" :rules="landmarkRules" outlined dense label="Landmark" required class="mb-1"></v-text-field>
-      <v-text-field v-model="pincode" :rules="pincodeRules" outlined dense label="Pincode" type="number" required class="mb-1"></v-text-field>
+      <v-text-field v-model="pincode" :rules="pincodeRules" outlined dense label="Pincode" required class="mb-1"></v-text-field>
       <v-btn class="mt-4" :disabled="!valid" color="primary" @click="validate" block> 
-        <strong> ADD ADDRESS </strong>
+        <strong>{{ isEditing ? btnTextEdit : btnTextAdd }}</strong>
       </v-btn>  
     </v-form>
   </div>
@@ -21,13 +31,18 @@
 <script>
 export default {
   data: () => ({
+    addMssg: 'Add Address.',
+    editMssg: 'Edit Address.',
+    checkoutMssgAdd: 'Enter address for faster checkouts.',
+    checkoutMssgEdit: 'Update your saved address.',
+    btnTextAdd: 'ADD ADDRESS',
+    btnTextEdit: 'SAVE',
     valid: true,
     firstname:'',
     lastname: '',
     email: '',
     phone:'',
     street: '',
-    city: '',
     landmark: '',
     pincode: '',
     firstNameRules: [
@@ -57,14 +72,9 @@ export default {
       v => /^(?=[a-zA-Z0-9~@#$^*()_+=[\]{}|\\,.?: -]*$)(?!.*[<>'"/;`%])/.test(v) || 'Special Characters Are Not Allowed'
     ],
     streetRules: [
-      v => !!v || 'House Number will help us find you.',
-      v => v.length < 15 || 'Street to be less than 15 characters.',
-      v => /^(?=[a-zA-Z0-9~@#$^*()_+=[\]{}|\\,.?: -]*$)(?!.*[<>'"/;`%])/.test(v) || 'Special Characters Are Not Allowed'
-    ],
-    cityRules: [
-      v => !!v || 'City is required.',
-      v => v.length < 15 || 'City to be less than 15 characters.',
-      v => /^(?=[a-zA-Z0-9~@#$^*()_+=[\]{}|\\,.?: -]*$)(?!.*[<>'"/;`%])/.test(v) || 'Special Characters Are Not Allowed'
+      v => !!v || 'Street will help us find you.',
+      v => v.length < 150|| 'Street to be less than 150 characters.',
+      v => /^(?=[a-zA-Z0-9~@#$^*()_+=[\]{}|\\,.?: -]*$)(?!.*[<>'"/;`%])/.test(v) || 'Special Characters or Enter Is Not Allowed'
     ],
     landmarkRules: [
       v => !!v || 'Landmark will help us find you.',
@@ -73,11 +83,29 @@ export default {
     ],
     pincodeRules: [
       v => !!v || 'Pincode will help us find you.',
-      v => v.length < 8 || 'Street to be less than 15 characters.',
       v => /^(?=[a-zA-Z0-9~@#$^*()_+=[\]{}|\\,.?: -]*$)(?!.*[<>'"/;`%])/.test(v) || 'Special Characters Are Not Allowed'
     ],
   }),
+  computed: {
+    editAddress() {
+      return this.$store.getters['address/getEditAddress'];
+    },
+    isEditing() {
+      return this.$store.getters['address/isEditingAddress'];
+    }
+  },
   methods: {
+    setForm() {
+      if (this.editAddress.hasOwnProperty('_id')) {
+        this.firstname = this.editAddress['firstname'];
+        this.lastname = this.editAddress['lastname'];
+        this.email = this.editAddress['email'];
+        this.phone = this.editAddress['phone'];
+        this.street = this.editAddress['street'];
+        this.pincode = this.editAddress['pincode'];
+        this.landmark = this.editAddress['landmark'];
+      }
+    },
     validate () {
       this.$refs.form.validate();
       const formData = {
@@ -89,14 +117,35 @@ export default {
         "pincode": this.pincode,
         "landmark": this.landmark
       };
-      this.$store.dispatch('address/saveAddress', formData)
-      .then((resp) => {
-        if (resp.code === 200) {
-          this.$store.dispatch('address/getAddress');
-        }
-        this.$emit('switchTab', 'tab-1');
-      });
+      if (this.$refs.form.validate() && this.isEditing) {
+        this.$store.dispatch('address/editAddress', { id: this.editAddress._id ,data:formData})
+        .then((resp) => {
+          if (resp) {
+            this.$store.dispatch('address/getAddress');
+          }
+          this.$emit('switchTab', 'tab-1');
+        });
+        return;
+      } 
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch('address/saveAddress', formData)
+        .then((resp) => {
+          if (resp.code === 200) {
+            this.$store.dispatch('address/getAddress');
+          }
+          this.$emit('switchTab', 'tab-1');
+        });
+      }
     }
+  },
+  mounted() {
+    this.setForm();
+  },
+  beforeDestroy() {
+    if (this.isEditing) {
+      this.$store.commit('address/setEditAddress', {});
+    }
+    this.$store.commit('address/setEditing', false);  
   }
 }
 </script>

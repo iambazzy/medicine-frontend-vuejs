@@ -2,8 +2,8 @@
   <v-card>
     <v-tabs v-model="tab" grow>
       <v-tabs-slider></v-tabs-slider>
-      <v-tab href="#tab-1"> Saved Addresses </v-tab>
-      <v-tab href="#tab-2"> Add Address </v-tab>
+      <v-tab href="#tab-1"> {{ savedTitle }} </v-tab>
+      <v-tab href="#tab-2"> {{ this.isEditing ? 'Edit Address' : addTitle }} </v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab">
@@ -14,10 +14,11 @@
               :title="'Saved Addresses'"
               :subTitle="'You can save upto 5 addresses'"
               @switchTab="switchTab"
+              @editAddress="editAddress"
             />
           </div>
           <div v-if="tab === 'tab-2'">
-            <add-address @switchTab="switchTab"/>
+            <add-address @switchTab="switchTab" ref="addAddress"/>
           </div>
         </v-card>
       </v-tab-item>
@@ -37,10 +38,15 @@ export default {
   },
   data: () => ({
     tab: null,
+    savedTitle: 'Saved Addresses',
+    addTitle: 'Add Address'
   }),
   computed: {
     addresses() {
       return this.$store.getters['address/getAddresses'].addresses;
+    },
+    isEditing() {
+      return this.$store.getters['address/isEditingAddress'];
     }
   },
   methods: {
@@ -56,6 +62,11 @@ export default {
     initializeModule() {
       this.$store.registerModule('address', addressModule);
     },
+    editAddress(item) {
+      this.tab = 'tab-2';
+      this.$store.commit('address/setEditing', true);
+      this.$store.commit('address/setEditAddress', item);
+    }
   },
   async created() {
     await this.initializeModule();

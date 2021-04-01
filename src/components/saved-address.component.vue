@@ -13,7 +13,7 @@
           <small>{{ item.pincode }}</small>
           <!-- Buttons -->
           <div class="d-flex justify-end mt-3">
-            <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'">
+            <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'" @click="editAddress(item)">
               <v-icon color="black">mode</v-icon>
             </v-btn>
             <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'" @click="deleteAddress(item)">
@@ -32,11 +32,35 @@
       <strong>You don't have any saved addresses.</strong>
       <v-btn class="mt-6" small color="primary" @click="$emit('switchTab', 'tab-2')">Add Address</v-btn>
     </div>
+    <!-- INFO MODAL -->
+    <info-modal :color="'error'" :showActionButtons="false" ref="modal">
+      <template v-slot:heading>
+        <strong>Are You Sure ?</strong>
+      </template>
+      <template v-slot:body>
+        <div style="text-align: justify">
+          <strong>Press delete if you want to remove the address. If you don't want to delete it then press the cancel button.</strong>
+        </div>
+        <div class="mt-8 d-flex justify-end">
+          <v-btn text color="primary" small @click="$refs.modal.toggleDialog()">
+            <strong>cancel</strong>
+          </v-btn>
+          <v-btn text color="error" small @click="deleteFinal()">
+            <strong>delete</strong>
+          </v-btn>
+        </div>
+      </template>
+    </info-modal>
   </div>
 </template>
 
 <script>
+import infoModal from '../components/info-modal.component';
+
 export default {
+  components: {
+    infoModal
+  },
   props: {
     title: {
       type: String,
@@ -47,6 +71,9 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    selectedAddress: null
+  }),
   computed: {
     addresses() {
       return this.$store.getters['address/getAddresses']
@@ -59,7 +86,15 @@ export default {
       }
     },
     deleteAddress(address) {
-      this.$store.dispatch('address/deleteAddress', address._id);
+      this.selectedAddress = address;
+      this.$refs.modal.toggleDialog();
+    },
+    deleteFinal() {
+      this.$store.dispatch('address/deleteAddress', this.selectedAddress._id);
+      this.$refs.modal.toggleDialog();
+    },
+    editAddress(item) {
+      this.$emit('editAddress', item);
     }
   }
 } 

@@ -3,11 +3,19 @@ import ApiService from '../plugins/axios';
 export default {
   namespaced: true,
   state: {
-    addresses: {}
+    addresses: {},
+    editAddress: {},
+    editing: false,
   },
   mutations: {
     setAddresses(state, payload) {
       state.addresses = payload;
+    },
+    setEditAddress(state, payload) {
+      state.editAddress = payload;
+    },
+    setEditing(state, payload) {
+      state.editing = payload;
     }
   },
   actions: {
@@ -54,9 +62,24 @@ export default {
       } finally {
         await context.commit('stopLoading', null, { root: true });
       }
+    },
+    async editAddress(context, payload) {
+      try {
+        context.commit('startLoading', null, { root: true });
+        const { data : { data }} = await ApiService(true).put(`user/update-address?addressId=${payload.id}`, payload.data );
+        context.commit('showSnackbar', { color: 'success',message: 'Address Updated Successfully' }, { root: true });
+        return data;
+      } catch (e) {
+        const { data } = e.response;
+        context.commit('showSnackbar', { color: 'error',message: data.message }, { root: true });
+      } finally {
+        await context.commit('stopLoading', null, { root: true });
+      }
     }
   },
   getters: {
-    getAddresses: state => state.addresses
+    getAddresses: state => state.addresses,
+    getEditAddress: state => state.editAddress,
+    isEditingAddress: state => state.editing,
   }
 }
