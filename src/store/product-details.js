@@ -24,8 +24,8 @@ export default {
           break;
       }
     },
-    setDefaultOrderQuantity(state) {
-      state.orderQuantity = 1;
+    setDefaultOrderQuantity(state, payload) {
+      state.orderQuantity = payload;
     }
   },
   actions: {

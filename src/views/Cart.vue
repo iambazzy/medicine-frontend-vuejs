@@ -24,11 +24,21 @@
           <strong>Cart.</strong>
           <small>Your shopping bag.</small>
         </div>
+
         <div>
           <div class="d-flex flex-column mt-6">
-            <div class="d-flex justify-space-between">
-              <div>{{ cartItems.length }} items</div>
-              <div>Total: ₹{{ cartTotal }}</div>
+            <div class="d-flex flex-column">
+              <div class="d-flex justify-space-between" v-if="cartItems.length > 0">
+                <div>{{ cartItems.length }} items</div>
+                <div>
+                  <v-chip small color="green" dark> 
+                    <strong> You Save ₹{{ originalTotal - cartTotal }} </strong>
+                  </v-chip>
+                </div>
+              </div>
+                <div v-if="cartItems.length > 0">Original Total: <span class="discount">₹{{ originalTotal }}</span>  </div>
+                <div v-if="cartItems.length > 0">You pay: <strong>₹{{ cartTotal }} </strong> </div>
+              </div>
             </div>
             <div class="d-flex flex-column mt-4 mb-4">
               <order-card 
@@ -36,9 +46,9 @@
                 :key="index"
                 :data="item"
               />
-            </div>
           </div>
         </div>
+
         <div class="d-flex justify-end" v-if="cartItems.length > 0">
           <v-btn color="primary" @click="tab = 2">
             Continue
@@ -55,7 +65,7 @@
 
       <!-- #2 -->
       <v-stepper-content step="2" class="pa-3">
-        <div class="px-1">
+        <div style="padding: 1px;">
           <saved-address
             :title="'Select Address.'"
             :subTitle="'Please select a delivery address.'"
@@ -68,15 +78,61 @@
       <!-- #3 -->
       <v-stepper-content step="3">
         <div class="d-flex flex-column">
-          <strong>Payment Method.</strong>
-          <small>Please select you payment method.</small>
+          <strong>Place Order.</strong>
+          <small>Please review your order.</small>
         </div>
+        <div style="padding: 1px;">
+          <div class="mt-3">
+            <strong>Delivery Address</strong>
+          </div>
+          <v-card elevation="2" class="pa-2 mb-2 mt-2" >
+            <div class="d-flex flex-column">
+              <strong style="text-transform: capitalize;">{{ selectedAddress.firstname }} {{ selectedAddress.lastname }}</strong>
+              <small>{{ selectedAddress.email }}</small>
+              <small>{{ selectedAddress.street }} - {{ selectedAddress.landmark }}</small>
+              <small>{{ selectedAddress.phone }}</small>
+              <small>{{ selectedAddress.pincode }}</small>
+            </div>
+          </v-card>
+        </div>
+
         <div>
-          <div>Selected Address here</div>
+          <div class="mt-3 d-flex justify-space-between">
+            <strong>Order Details</strong>
+            <div v-if="cartItems.length > 0">You pay: <strong>₹{{ cartTotal }} </strong> </div>
+          </div>
+          <order-card 
+            v-for="(item, index) in cartItems" 
+            :key="index"
+            :data="item"
+            :hideBtns="false"
+          />
         </div>
-        <v-btn color="primary" @click="tab = 1">
+
+        <v-btn color="primary" block class="mt-6" @click="$refs.modal.toggleDialog()">
           Place Order
         </v-btn>
+
+        <!-- HOW IT WORKS -->
+        <info-modal :color="'primary'" ref="modal" :showActionButtons="false">
+          <template v-slot:heading>
+            <strong>
+              <v-icon color="white">info</v-icon>
+              Note
+            </strong>
+          </template>
+          <template v-slot:body>
+            <div>
+              All our orders are processed on COD (Cash on Delivery) payment method.
+            </div>
+            <div class="mt-6 d-flex justify-end">
+              <v-btn color="primary" small @click="$refs.modal.toggleDialog()">
+                Go Back
+              </v-btn>
+              <v-btn color="primary" class="ml-4" small @click="placeOrder()">Place Order</v-btn>
+            </div>
+          </template>
+        </info-modal>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -88,11 +144,13 @@ import orderCard from '../components/order-card.component';
 
 export default {
   components: {
+    infoModal: () => import('../components/info-modal.component.vue'),
     savedAddress,
     orderCard
   },
   data: () => ({
     tab: 1,
+    checkbox: true
   }),
   computed: {
     cartItems() {
@@ -104,6 +162,16 @@ export default {
         total = total + (item.orderQuantity * item.bestPrice)
       });
       return total;
+    },
+    originalTotal() {
+      let originalTotal = 0;
+      this.$store.getters['cart/getCartItems'].forEach((item) => {
+        originalTotal = originalTotal + (item.orderQuantity * item.mrp)
+      });
+      return originalTotal;
+    },
+    selectedAddress() {
+      return this.$store.getters['cart/getSelectedAddress'];
     }
   },
   methods: {
@@ -117,7 +185,7 @@ export default {
     },
     goToStep3(selectedAddress) {
       if (this.tab === 2) {
-        console.log(selectedAddress);
+        this.$store.commit('cart/setSelectedAddress', selectedAddress);
         this.tab++;
       }
     },
@@ -126,6 +194,10 @@ export default {
     },
     getAddresses() {
       this.$store.dispatch('address/getAddress');
+    },
+    placeOrder() {
+      this.$refs.modal.toggleDialog();
+      this.$store.commit('startLoading');
     }
   },
   mounted() {
@@ -135,6 +207,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .discount {
+    text-decoration: line-through;
+  }
 </style>

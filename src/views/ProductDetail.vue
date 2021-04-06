@@ -45,7 +45,7 @@
       <!-- ADD TO CART -->
       <div class="mt-8 d-flex justify-space-between align-center">
         <small>*Inclusive of all taxes</small>
-        <v-btn small color="primary" @click="addToCart">Add To Cart</v-btn>
+        <v-btn small color="primary" @click="addToCart">{{ addBtnText }}</v-btn>
       </div>
 
       <!-- EXPANSION PANELS -->
@@ -89,14 +89,24 @@ import productDetailsModule from '../store/product-details';
 
 export default {
   data: () => ({
-    ruppeeSymbol: '₹'
+    ruppeeSymbol: '₹',
+    addBtnText: 'Add to cart',
+    inCart: false,
   }),
   computed: {
     productDetail() {
       return this.$store.getters['productDetails/getProductDetails'];
     },
-    orderQuantity() {
-      return this.$store.getters['productDetails/getOrderQuantity'];
+    orderQuantity: {
+      get() {
+        return this.$store.getters['productDetails/getOrderQuantity'];
+      },
+      set(val) {
+        this.$store.commit('productDetails/setDefaultOrderQuantity', val);
+      }
+    },
+    cartItems() {
+      return this.$store.getters['cart/getCartItems'];
     }
   },
   methods: {
@@ -108,11 +118,31 @@ export default {
         orderQuantity: this.orderQuantity,
         product: this.productDetail
       };
-      this.$store.dispatch('cart/addToCart', template);
+
+      if (this.inCart) {
+        this.$router.push({ path: '/cart' });
+      } else {
+        this.$store.dispatch('cart/addToCart', template)
+        .then(() => {
+          this.checkIfInCart();
+        });
+      }
     },
     getProductDetails() {
-      this.$store.commit('productDetails/setDefaultOrderQuantity');
-      this.$store.dispatch('productDetails/getProductDetails', { id: this.$route.query.id });
+      this.$store.commit('productDetails/setDefaultOrderQuantity', 1);
+      this.$store.dispatch('productDetails/getProductDetails', { id: this.$route.query.id })
+      .then(() => {
+        this.checkIfInCart();
+      });
+    },
+    checkIfInCart() {
+      this.cartItems.forEach((item) => {
+        if (item._id === this.productDetail._id) {
+          this.inCart = true;
+          this.orderQuantity = item.orderQuantity;
+          this.addBtnText = `Go to cart`;
+        }
+      });
     }
   },
   async created() {

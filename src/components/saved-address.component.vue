@@ -19,8 +19,8 @@
             <v-btn small class="mr-2" icon v-if="$route.path !== '/cart'" @click="deleteAddress(item)">
               <v-icon color="red">delete</v-icon>
             </v-btn>
-            <v-btn small color="primary" dark @click="proceed(item)" v-if="$route.path == '/cart'">
-              <v-icon>check_circle</v-icon>
+            <v-btn class="d-flex align-center" outlined block small color="primary" dark @click="proceed(item)" v-if="$route.path == '/cart'">
+              <strong>Deliver to this address</strong>
             </v-btn>
           </div>
         </div>

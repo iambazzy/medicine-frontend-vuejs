@@ -3,13 +3,17 @@ import ApiService from '../plugins/axios';
 export default {
   namespaced: true,
   state: {
-    cartItems: []
+    cartItems: [],
+    selectedAddress: {},
   },
   mutations: {
     fillCartItems(state, payload) {
       state.cartItems = payload;
+    },
+    setSelectedAddress(state, payload) {
+      state.selectedAddress = payload;
     }
-  },
+  },  
   actions: {
     async addToCart(context, payload) {
       try {
@@ -48,5 +52,6 @@ export default {
   },
   getters: {
     getCartItems: state => state.cartItems,
+    getSelectedAddress: state => state.selectedAddress,
   }
 }

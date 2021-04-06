@@ -1,6 +1,9 @@
 <template>
   <v-sheet color="primary" 
-    :class="{'pa-2 d-flex align-center' : true }"
+    :class="{
+      'pa-2 d-flex align-center search-bar' : true,
+      'pl-0': $route.path === '/search-medicine' 
+    }"
   >
     <span @click="$router.go(-1)" v-if="$route.name !== 'Home'">
       <v-icon large color="white">keyboard_arrow_left</v-icon>
