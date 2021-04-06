@@ -25,7 +25,7 @@
         <strong>Request a product</strong>
       </template>
       <template v-slot:body>
-        <div>
+        <div class="pa-4">
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field :rules="nameRules" v-model="name" label="Name" outlined dense required></v-text-field>
             <v-text-field :rules="numberRules" v-model="number" type="number" label="Mobile number" outlined dense required></v-text-field>

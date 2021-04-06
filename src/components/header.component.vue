@@ -18,10 +18,13 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-title class="white--text">
-        <div>
+        <div class="d-flex">
           <span @click="$router.push({ path: '/cart' })"> 
             <v-icon color="white">shopping_cart</v-icon>
           </span>
+          <v-chip x-small class="pa-2" color="white"> 
+           {{ loggedIn ? cartItemsLength : 0 }} 
+          </v-chip>
       </div>
       </v-toolbar-title>
     </v-app-bar>
@@ -34,10 +37,20 @@ export default {
     drawer: null,
     searchTerm: ''
   }),
+  computed: {
+    cartItemsLength() {
+      return this.$store.getters['cart/getCartItems'].length;
+    },
+    loggedIn() {
+      return this.$store.getters['account/loggedIn'];
+    }
+  },
   methods: {
     searchClicked() {
       this.$router.push({ name: 'Search Medicine' })
-    }
+    },
+  },
+  mounted() {   
   }
 }
 </script>

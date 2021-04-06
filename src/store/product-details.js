@@ -34,6 +34,17 @@ export default {
       const { data: { data } } = await ApiService().get(`/medicine/get-medicine?id=${payload.id}`);
       await context.commit('setProduct', data);
       await context.commit('stopLoading', null, { root: true });
+    },
+    async getCart(context) {
+      try {
+        context.commit('startLoading', null, { root: true });
+        const { data } = await ApiService(true).get('cart');
+        console.log(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        await context.commit('stopLoading', null, { root: true });
+      }
     }
   },
   getters: {

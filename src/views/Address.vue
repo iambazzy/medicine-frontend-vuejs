@@ -29,7 +29,6 @@
 <script>
 import savedAddress from '../components/saved-address.component';
 import addAddress from '../components/add-address.component';
-import addressModule from '../store/address';
 
 export default {
   components: {
@@ -59,26 +58,16 @@ export default {
         this.switchTab(tab);
       }
     },
-    initializeModule() {
-      this.$store.registerModule('address', addressModule);
-    },
     editAddress(item) {
       this.tab = 'tab-2';
       this.$store.commit('address/setEditing', true);
       this.$store.commit('address/setEditAddress', item);
     }
   },
-  async created() {
-    await this.initializeModule();
-    this.checkForQueryParams();
-  },
   mounted() {
     if (this.addresses === undefined || this.addresses.length === 0) {
       this.$store.dispatch('address/getAddress');
     }
-  },
-  beforeDestroy () {
-    this.$store.unregisterModule('address');
   }
 }
 </script>

@@ -108,7 +108,7 @@ export default {
         orderQuantity: this.orderQuantity,
         product: this.productDetail
       };
-      console.log(template);
+      this.$store.dispatch('cart/addToCart', template);
     },
     getProductDetails() {
       this.$store.commit('productDetails/setDefaultOrderQuantity');

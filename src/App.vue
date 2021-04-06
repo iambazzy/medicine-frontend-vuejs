@@ -76,6 +76,7 @@ export default {
       if (localStorage.getItem('user')) {
         const token = JSON.parse(localStorage.getItem("user")).token;
         this.$store.dispatch('account/verifyToken', { token });
+        this.$store.dispatch('cart/getCart');
       }
     }
   },

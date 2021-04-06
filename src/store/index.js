@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import accountModule from './account';
+import cartModule from './cart';
+import addressModule from './address';
 
 Vue.use(Vuex)
 
@@ -39,6 +41,8 @@ export default new Vuex.Store({
     color: state => state.color,
   },
   modules: {
-    account: accountModule
+    account: accountModule,
+    cart: cartModule,
+    address: addressModule,
   }
 });
