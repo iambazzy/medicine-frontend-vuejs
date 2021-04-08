@@ -3,9 +3,9 @@
     <primary-carousel/>
     <upload-prescription/>
     <categories/>
-    <product-slider :heading="'Frequently Brought'" :products="15"/>
     <product-slider :heading="'Trending'" :products="5"/>
     <advertise/>
+    <product-slider :heading="'Frequently Brought'" :products="15"/>
   </div>
 </template>
 

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import accountModule from './account';
 import cartModule from './cart';
 import addressModule from './address';
+import ordersModule from './orders';
 
 Vue.use(Vuex)
 
@@ -44,5 +45,6 @@ export default new Vuex.Store({
     account: accountModule,
     cart: cartModule,
     address: addressModule,
+    orders: ordersModule
   }
 });

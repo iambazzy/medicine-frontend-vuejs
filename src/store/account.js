@@ -58,6 +58,10 @@ export default {
       context.commit('setLoggedIn', { value: false });
       await localStorage.removeItem('user');
       return '/account';
+    },
+    async uploadPrescription(context, payload) {
+      context.commit('startLoading', null, { root: true });
+      const data = await ApiService().post('/upload', payload);
     }
   },
   getters: {

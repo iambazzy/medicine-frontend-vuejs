@@ -52,6 +52,30 @@ const routes = [
     component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "lab-test" */ '../views/LabTests.vue')
   },
   {
+    path: '/placed',
+    name: 'Placed',
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "Placed" */ '../views/Placed.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "Orders" */ '../views/Orders.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/order-details',
+    name: 'Order Details',
+    component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "Order Details" */ '../views/Orderdetails.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "profile" */ '../views/Profile.vue'),

@@ -197,7 +197,13 @@ export default {
     },
     placeOrder() {
       this.$refs.modal.toggleDialog();
-      this.$store.commit('startLoading');
+      // this.$store.commit('startLoading');
+      const template = {
+        address: this.selectedAddress,
+        products: this.cartItems
+      }
+      this.$store.dispatch('orders/placeOrder', template);
+      // this.$router.push({ path: '/placed' });
     }
   },
   mounted() {

@@ -42,7 +42,7 @@ export default {
   }),
   computed: {
     addresses() {
-      return this.$store.getters['address/getAddresses'].addresses;
+      return this.$store.getters['address/getAddresses'];
     },
     isEditing() {
       return this.$store.getters['address/isEditingAddress'];
@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     switchTab(val) {
+      console.log(val);
       this.tab = val;
     },
     checkForQueryParams() {
@@ -65,7 +66,7 @@ export default {
     }
   },
   mounted() {
-    if (this.addresses === undefined || this.addresses.length === 0) {
+    if (this.addresses === undefined || this.addresses === null) {
       this.$store.dispatch('address/getAddress');
     }
   }

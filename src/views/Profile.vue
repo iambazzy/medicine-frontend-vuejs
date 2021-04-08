@@ -60,7 +60,7 @@ export default {
       { 
         label: 'Orders', 
         icon: 'local_shipping', 
-        path: '/',
+        path: '/orders',
         sublabel: 'Check your order status'
       },
       { 

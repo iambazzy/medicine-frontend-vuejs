@@ -3,7 +3,7 @@
     <strong>{{ title }}</strong>
     <small>{{ subTitle }}</small>
     <!-- CHECK IF ADDRESSES -->
-    <div v-if="addresses && addresses.addresses !== []">
+    <div v-if="addresses && addresses.hasOwnProperty('addresses') && addresses.addresses !== []">
       <v-card elevation="2" v-for="(item, index) in addresses.addresses" :key="index" class="pa-2 mb-2 mt-2" >
         <div class="d-flex flex-column">
           <strong style="text-transform: capitalize;">{{ item.firstname }} {{ item.lastname }}</strong>
